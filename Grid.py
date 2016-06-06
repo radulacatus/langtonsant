@@ -1,5 +1,5 @@
 import numpy as np
-from Rule import Rule
+import Rules
 from Ant import Ant
 
 class Grid:
@@ -8,7 +8,7 @@ class Grid:
         self.cell_size = 10 #pixels
         self.grid_size = grid_size
         self.ants = [Ant(grid_size / 2 , grid_size / 2)]
-        self.rule = Rule(2)
+        self.rules = Rules.generate_random_rules()
         self.canvas = canvas
         self.grid = np.zeros([self.grid_size,self.grid_size], dtype=np.int)
         self.draw()
@@ -29,7 +29,7 @@ class Grid:
         
     def step(self, ant):
         current_state = self.get_cell_state(ant.x, ant.y)
-        state, dx, dy = self.rule.get_move(current_state, ant.dx, ant.dy)
+        state, dx, dy = Rules.get_move(self.rules, current_state, ant.dx, ant.dy)
         if self.is_valid(ant.x + dx, ant.y + dy):
             ant.dx = dx
             ant.dy = dy
@@ -41,11 +41,17 @@ class Grid:
         for ant in self.ants:
             self.step(ant)
         
+    def restart(self):
+        self.grid = np.zeros([self.grid_size,self.grid_size], dtype=np.int)
+        self.ants = [Ant(self.grid_size / 2 , self.grid_size / 2)]
+        self.rules = Rules.generate_random_rules()
+        self.draw()
+        
     def draw(self):
         self.canvas.delete("all")
         for x in range(self.grid_size):
             for y in range(self.grid_size):
-                state_color = Rule.state_colors[self.grid[x][y]]
+                state_color = Rules.state_colors[self.grid[x][y]]
                 self.canvas.create_rectangle(x*self.cell_size,y*self.cell_size, (x+1)*self.cell_size,(y+1)*self.cell_size, fill = state_color, outline="red")
     
      

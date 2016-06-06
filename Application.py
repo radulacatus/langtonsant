@@ -1,7 +1,6 @@
 from Tkinter import *
 from Grid import Grid
 from Ant import Ant
-from Rule import Rule
 
 class Application(Frame):
     
@@ -28,6 +27,11 @@ class Application(Frame):
         self.btn_stop["command"] = self.stop
         self.btn_stop.grid()
         
+        self.btn_stop = Button(self)
+        self.btn_stop["text"] = "Restart"
+        self.btn_stop["command"] = self.restart
+        self.btn_stop.grid()
+        
         self.canvas = Canvas(master, height = 400, width = 500, bg="white")
         self.canvas.pack()
         self.canvas.grid()
@@ -38,11 +42,14 @@ class Application(Frame):
     def stop(self):
         self.running = False
         
+    def restart(self):
+        self.grid.restart()
+        self.running = True
+        
     def animation(self):
         if self.running == True:
             self.grid.step_all()
             self.draw_step += 1
-            print(self.draw_step)
             if(self.draw_step >= self.draw_every_steps):
                 self.draw_step = 0
                 self.grid.draw()
