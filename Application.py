@@ -12,8 +12,9 @@ class Application(Frame):
         self.grid()
         self.create_widgets(master)
         self.grid = Grid(self.canvas, 40)
-        self.ants = [Ant(20, 20, self.grid, Rule(2))]
         self.val = 0
+        self.draw_every_steps = 1
+        self.draw_step = 0
         master.after(100, self.animation)
 
     def create_widgets(self, master):
@@ -39,8 +40,11 @@ class Application(Frame):
         
     def animation(self):
         if self.running == True:
-            for ant in self.ants:
-                ant.step()
-            self.grid.draw()
+            self.grid.step_all()
+            self.draw_step += 1
+            print(self.draw_step)
+            if(self.draw_step >= self.draw_every_steps):
+                self.draw_step = 0
+                self.grid.draw()
         self.master.after(1, self.animation)
             
