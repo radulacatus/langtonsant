@@ -1,6 +1,5 @@
 from Tkinter import *
 from Grid import Grid
-from Ant import Ant
 
 class Application(Frame):
     

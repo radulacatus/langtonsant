@@ -21,6 +21,9 @@ def get_move(rules_map, state, dx, dy):
     return (state, dx, dy)
     
 state_colors = ["white","black","red","blue","green","yellow","red"]
+max_states = 7
+grayscale_state_colors = [255 - i * 255 / max_states for i in range(max_states)]
+
 
 default_rules_map = { \
         (0,0): (1,1), (0,1): (1,2), (0,2): (1,3), (0,3): (1,0), \
